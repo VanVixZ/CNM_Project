@@ -18,20 +18,26 @@ function Register() {
     const handleSubmit = async (event) => {
         event.preventDefault();
         if (handleValidate()) {
-            console.log("in validation",registerRoute)
-            const {username, phone, password, confirmPassword} = values;
-            const {data} = await axios.post(registerRoute, {
-                username,
-                phone,
-                password,
-            });
-            if(data.status===false) {
-                toast.error(data.msg, toastOptions);
             
-            }
-            if(data.status===true) {
-                localStorage.setItem("chat-app-user", JSON.stringify(data.user));
-                navigate("/");
+            const {username, phone, password, confirmPassword} = values;
+            try {
+                const { data } = await axios.post(registerRoute, {
+                    username,
+                    phone,
+                    password,
+                });
+                if (data.status === false) {
+                    toast.error(data.msg, toastOptions);
+                }
+                if (data.status === true) {
+                    localStorage.setItem("chat-app-user", JSON.stringify(data.user));
+                    navigate("/");
+                }
+            } catch (error) {
+                // Xử lý lỗi khi gửi yêu cầu POST
+                console.error("Error:", error);
+                // Hiển thị thông báo lỗi cho người dùng
+                toast.error("An error occurred while processing your request.", toastOptions);
             }
             
         }
