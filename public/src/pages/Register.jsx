@@ -15,11 +15,16 @@ function Register() {
         password: "",
         confirmPassword: ""
     });
+    // useEffect(() => {
+    //     if (localStorage.getItem("chat-app-user")) {
+    //         navigate("/");
+    //     }
+    // }, []);
     const handleSubmit = async (event) => {
         event.preventDefault();
         if (handleValidate()) {
             
-            const {username, phone, password, confirmPassword} = values;
+            const {username, phone, password} = values;
             try {
                 const { data } = await axios.post(registerRoute, {
                     username,
